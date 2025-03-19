@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import NavTabItem from './NavTabItem';
 import NavGoal from './navGoal/NavGoal';
 import NavUserSetting from './NavUserSetting';
-import { useNavbar } from '../NavbarContext';
 
 const tabs = [
   { icon: faHouse, title: '대시보드', path: '/' },
@@ -15,21 +14,10 @@ const tabs = [
 
 export default function NavTab() {
   const pathname = usePathname();
-  const { closeNavbar } = useNavbar();
-
-  /**
-   * 모바일에서 클릭 시 navbar닫히게
-   */
-  const foldHeaderOnMobile = () => {
-    if (window.innerWidth <= 768) closeNavbar();
-  };
 
   return (
     <div className="flex w-full flex-1 flex-col gap-2 overflow-y-hidden border-t border-gs200 py-4 2xl:gap-3 2xl:py-8">
-      <section
-        className="flex flex-none flex-col gap-2 2xl:gap-3"
-        onClick={foldHeaderOnMobile}
-      >
+      <section className="flex flex-none flex-col gap-2 2xl:gap-3">
         {tabs.map((tab) => (
           <NavTabItem
             icon={tab.icon}
@@ -43,7 +31,7 @@ export default function NavTab() {
       <section className="flex-1 overflow-hidden">
         <NavGoal />
       </section>
-      <section className="flex-none" onClick={foldHeaderOnMobile}>
+      <section className="flex-none">
         <NavUserSetting />
       </section>
     </div>
