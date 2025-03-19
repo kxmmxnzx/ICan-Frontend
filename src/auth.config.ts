@@ -15,10 +15,6 @@ export const authConfig = {
         return Response.redirect(new URL('/login', nextUrl));
       }
 
-      if ((isOnLoginPage || isOnSignupPage) && isLoggedIn) {
-        return Response.redirect(new URL('/', nextUrl));
-      }
-
       return true; // 그 외의 페이지는 기본적으로 접근 허용
     },
   },
