@@ -15,10 +15,7 @@ export default function NavUserSetting() {
           'border-b border-gs200 2xl:gap-2 2xl:rounded-xl 2xl:py-3',
         )}
       >
-        <Icon
-          icon={faGear}
-          className="w-10 p-3 transition-all duration-300 2xl:p-2"
-        />
+        <Icon icon={faGear} className="w-10 2xl:p-2" />
         <p className="text-14M font-medium 2xl:text-16M">설정</p>
       </Link>
       <button
@@ -29,10 +26,7 @@ export default function NavUserSetting() {
           '2xl:gap-2 2xl:rounded-xl 2xl:py-3',
         )}
       >
-        <Icon
-          icon={faRightFromBracket}
-          className="w-10 p-3 transition-all duration-300 2xl:p-2"
-        />
+        <Icon icon={faRightFromBracket} className="w-10 p-3 2xl:p-2" />
         <p className="text-14M font-medium 2xl:text-16M">로그아웃</p>
       </button>
     </div>

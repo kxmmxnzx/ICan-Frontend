@@ -23,7 +23,7 @@ export default function NavGoalItem({ goal, isSelected }: Props) {
       href={`/goals/${goal.goalId}`}
       className={cn(
         'flex flex-none cursor-pointer items-center gap-4 overflow-hidden rounded-md p-2',
-        'text-gray-400 hover:bg-gs50',
+        'text-gray-400 hover:bg-gs100',
         {
           'bg-gs50 text-gsBk': isSelected,
         },

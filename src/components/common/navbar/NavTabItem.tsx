@@ -16,7 +16,7 @@ export default function NavTabItem({ icon, path, title, isSelected }: Props) {
       href={path}
       className={cn(
         'flex flex-shrink-0 items-center gap-1 overflow-hidden whitespace-nowrap rounded-lg px-1 py-2 text-gs600',
-        'hover:bg-slate50 2xl:gap-2 2xl:rounded-xl 2xl:px-2 2xl:py-3',
+        'hover:bg-gs100 2xl:gap-2 2xl:rounded-xl 2xl:px-2 2xl:py-3',
         { 'bg-slate50 text-slate700': isSelected },
       )}
     >

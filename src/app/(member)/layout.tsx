@@ -11,10 +11,12 @@ export default function Layout({
 }>) {
   return (
     <NavbarProvider>
-      <div className="flex h-dvh w-screen flex-col overflow-hidden bg-gs100 will-change-scroll md:flex-row">
+      <div className="flex h-dvh w-screen flex-col overflow-hidden bg-gs100 md:flex-row">
         <Navbar />
-        <div className="relative left-1/2 flex size-full max-w-screen-xl flex-1 -translate-x-1/2 flex-col gap-4 overflow-auto overscroll-contain p-4 md:max-h-[1000px] md:gap-8 md:p-10">
-          {children}
+        <div className="flex-1 overflow-hidden">
+          <div className="relative flex size-full max-w-screen-xl flex-col gap-4 overflow-y-auto p-4 md:left-1/2 md:max-h-[1000px] md:-translate-x-1/2 md:gap-8 md:p-10">
+            {children}
+          </div>
         </div>
         <NavbarMobile />
         {modal}
