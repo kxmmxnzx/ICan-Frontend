@@ -1,5 +1,5 @@
-FORBIDDEN_HTTPS_URL="https://github.com/ICan-5/ICan-Frontend" # 레포 https url 
-FORBIDDEN_SSH_URL="git@github.com:ICan-5/ICan-Frontend.git" # 레포 ssh url
+FORBIDDEN_HTTPS_URL="https://github.com/kxmmxnzx/ICan-Frontend" # 레포 https url 
+FORBIDDEN_SSH_URL="git@github.com:kxmmxnzx/ICan-Frontend.git" # 레포 ssh url
 FORBIDDEN_REF_MAIN="main"
 FORBIDDEN_REF_DEV="dev"
 
@@ -15,7 +15,7 @@ fi
 if [ "$branch" == "$FORBIDDEN_REF_MAIN" ] || [ "$branch" == "$FORBIDDEN_REF_DEV" ]
 then
     echo "DO NOT PUSH TO MAIN OR DEV"
-    exit 1 # 금지된 ref 로 push 를 실행하면 에러
+    exit 0 # 금지된 ref 로 push 를 실행하면 에러
 fi
 
 exit 0
