@@ -16,7 +16,7 @@ import { useNavbar } from '../../NavbarContext';
 
 export default function NavGoal() {
   const pathname = usePathname();
-  const { isFolded: headerFolded, closeNavbar } = useNavbar();
+  const { isFolded: headerFolded } = useNavbar();
   const { data: goalList, isFetching } = useGoals();
   const [isFolded, setIsFolded] = useState<boolean>(false);
   const [showNewGoal, setShowNewGoal] = useState<boolean>(false);
@@ -36,13 +36,6 @@ export default function NavGoal() {
     if (isFolded) setIsFolded(false);
   };
 
-  /**
-   * 모바일에서 클릭 시 navbar닫히게
-   */
-  const foldHeaderOnMobile = () => {
-    if (window.innerWidth <= 768) closeNavbar();
-  };
-
   return (
     <div className="flex h-full flex-col overflow-y-hidden">
       <div
@@ -52,10 +45,7 @@ export default function NavGoal() {
           { 'bg-slate50 text-slate700': pathname.startsWith('/goals') },
         )}
       >
-        <Icon
-          icon={faFontAwesome}
-          className="w-10 px-4 transition-all duration-300"
-        />
+        <Icon icon={faFontAwesome} className="w-10 p-3 2xl:p-2" />
         <p className="flex-1 text-left text-14M font-medium 2xl:text-16M">
           목표
         </p>
@@ -81,7 +71,6 @@ export default function NavGoal() {
           { 'scale-y-0': isFolded },
           { 'invisible overflow-hidden': headerFolded },
         )}
-        onClick={foldHeaderOnMobile}
       >
         {showNewGoal && (
           <NewGoalItem onCloseInput={() => setShowNewGoal(false)} />

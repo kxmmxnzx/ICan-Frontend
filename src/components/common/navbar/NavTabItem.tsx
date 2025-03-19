@@ -20,10 +20,7 @@ export default function NavTabItem({ icon, path, title, isSelected }: Props) {
         { 'bg-slate50 text-slate700': isSelected },
       )}
     >
-      <Icon
-        icon={icon}
-        className="w-10 px-4 transition-all duration-300 2xl:p-2"
-      />
+      <Icon icon={icon} className="w-10 p-3 2xl:p-2" />
       <p className="text-14M font-medium 2xl:text-16M">{title}</p>
     </Link>
   );
