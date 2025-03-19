@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRef, useState } from 'react';
 import { useGoals } from '@/hooks/useGoals';
 import { Goal } from '@/types/goals';
 import cn from '@/utils/cn';
+import Button from '../../button/Button';
+import NewGoalItem from './NewGoalItem';
 
 const GOAL_BG_COLORS = {
   goal01: 'bg-goal01',
@@ -21,15 +24,24 @@ interface Props {
 export default function NavGoalMobile({ isOpen, closeHandler }: Props) {
   const { data: goalList, isFetching } = useGoals();
   const pathname = usePathname();
+  const [showNewGoal, setShowNewGoal] = useState<boolean>(false);
+  const goalsRef = useRef<HTMLDivElement | null>(null);
+
+  const clickNewGoal = () => {
+    setShowNewGoal(true);
+    if (goalsRef.current)
+      goalsRef.current.scrollTop = goalsRef.current.scrollHeight;
+  };
 
   return (
     <>
       <div
-        className={`fixed bottom-16 h-dvh w-full bg-gsBk md:hidden ${isOpen ? 'scale-y-100 opacity-10' : 'scale-y-0'}`}
+        className={`fixed bottom-16 z-10 h-dvh w-full bg-gsBk md:hidden ${isOpen ? 'scale-y-100 opacity-10' : 'scale-y-0'}`}
         onClick={closeHandler}
       />
       <div
-        className={`fixed bottom-16 flex max-h-[10.5rem] w-full origin-bottom flex-col gap-2 overflow-x-hidden overflow-y-scroll rounded-t-xl bg-gs00 p-2 transition-transform duration-500 ease-in-out md:hidden ${isOpen ? 'scale-y-100' : 'scale-y-0'}`}
+        className={`fixed bottom-16 z-10 flex max-h-[10.5rem] w-full origin-bottom flex-col gap-2 overflow-x-hidden overflow-y-scroll rounded-t-xl bg-gs00 p-2 transition-transform duration-500 ease-in-out md:hidden ${isOpen ? 'scale-y-100' : 'scale-y-0'}`}
+        ref={goalsRef}
       >
         {isFetching &&
           !goalList &&
@@ -66,6 +78,14 @@ export default function NavGoalMobile({ isOpen, closeHandler }: Props) {
               </span>
             </Link>
           ))}
+        {showNewGoal && (
+          <NewGoalItem onCloseInput={() => setShowNewGoal(false)} />
+        )}
+        {(!isFetching || goalList?.length) && (
+          <Button variant="outline" size="full" onClick={clickNewGoal}>
+            목표 생성하기
+          </Button>
+        )}
       </div>
     </>
   );

@@ -45,7 +45,7 @@ export default function NewGoalItem({ onCloseInput }: Props) {
 
   return (
     <div className="flex flex-none cursor-pointer items-center gap-4 rounded-md bg-gs50 px-2 py-1 text-14R text-gray-400 2xl:rounded-lg">
-      <span className="ml-2 h-2 w-2 rounded-md bg-slate500" />
+      <span className="ml-2 size-2 rounded-md bg-slate500" />
       <input
         ref={inputRef}
         className="text-overflow p-1 text-12R 2xl:text-14R"
