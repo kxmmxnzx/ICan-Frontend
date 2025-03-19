@@ -24,10 +24,10 @@ export default function Navbar() {
     <>
       <nav
         className={cn(
-          'fixed top-0 z-30 flex h-dvh flex-none flex-col items-start bg-gs00 py-4 transition-all duration-300 first-line:left-0 md:relative 2xl:py-5',
+          'fixed top-0 z-30 flex h-dvh flex-none flex-col items-start bg-gs00 px-2 py-4 transition-all duration-300 first-line:left-0 md:relative 2xl:px-6 2xl:py-5',
           {
-            'w-16 px-2': isFolded,
-            'w-64 px-4 2xl:w-80 2xl:px-6': !isFolded,
+            'w-16': isFolded,
+            'w-64 2xl:w-80': !isFolded,
           },
         )}
       >
@@ -56,9 +56,9 @@ export default function Navbar() {
         >
           <IcanLogo
             className={cn(
-              'size-6 flex-none transition-transform duration-500 2xl:size-[30px]',
+              'mx-2 size-6 flex-none transition-transform duration-500 2xl:size-[30px]',
               {
-                'mx-2 rotate-90': isFolded,
+                'rotate-90': isFolded,
               },
             )}
           />

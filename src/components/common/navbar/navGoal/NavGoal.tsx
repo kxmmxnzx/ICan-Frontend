@@ -49,14 +49,12 @@ export default function NavGoal() {
         className={cn(
           'flex flex-none items-center gap-1 overflow-hidden whitespace-nowrap rounded-lg px-1 py-2 text-gs600',
           '2xl:gap-2 2xl:rounded-xl 2xl:px-2 2xl:py-3',
-          { 'bg-slate50 text-gsBk': pathname.startsWith('/goals') },
+          { 'bg-slate50 text-slate700': pathname.startsWith('/goals') },
         )}
       >
         <Icon
           icon={faFontAwesome}
-          className={cn('transition-all duration-300', {
-            'w-10 p-3 2xl:p-2': headerFolded,
-          })}
+          className="w-10 px-4 transition-all duration-300"
         />
         <p className="flex-1 text-left text-14M font-medium 2xl:text-16M">
           목표

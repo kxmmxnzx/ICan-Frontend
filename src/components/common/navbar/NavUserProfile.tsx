@@ -12,8 +12,8 @@ export default function NavUserProfile() {
       {status === 'authenticated' && data?.user?.image ? (
         <Image
           className={cn(
-            'size-12 flex-none rounded-full object-cover transition-all duration-300 2xl:size-16',
-            { 'ml-1 opacity-0 2xl:size-10': isFolded },
+            'ml-1 size-12 flex-none rounded-full object-cover transition-all duration-300 2xl:size-16',
+            { 'opacity-0': isFolded },
           )}
           src={data?.user?.image}
           width="64"

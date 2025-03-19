@@ -15,7 +15,7 @@ const tabs = [
 
 export default function NavTab() {
   const pathname = usePathname();
-  const { isFolded, closeNavbar } = useNavbar();
+  const { closeNavbar } = useNavbar();
 
   /**
    * 모바일에서 클릭 시 navbar닫히게
@@ -32,7 +32,6 @@ export default function NavTab() {
       >
         {tabs.map((tab) => (
           <NavTabItem
-            isFolded={isFolded}
             icon={tab.icon}
             title={tab.title}
             path={tab.path}
@@ -45,7 +44,7 @@ export default function NavTab() {
         <NavGoal />
       </section>
       <section className="flex-none" onClick={foldHeaderOnMobile}>
-        <NavUserSetting isFolded={isFolded} />
+        <NavUserSetting />
       </section>
     </div>
   );

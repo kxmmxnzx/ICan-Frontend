@@ -5,11 +5,7 @@ import { signOut } from 'next-auth/react';
 import cn from '@/utils/cn';
 import Icon from '@/components/common/icon/Icon';
 
-type Props = {
-  isFolded: boolean;
-};
-
-export default function NavUserSetting({ isFolded }: Props) {
+export default function NavUserSetting() {
   return (
     <div className="flex flex-col items-start overflow-hidden rounded-2xl bg-gs50 px-1 text-gs500 2xl:px-2">
       <Link
@@ -21,9 +17,7 @@ export default function NavUserSetting({ isFolded }: Props) {
       >
         <Icon
           icon={faGear}
-          className={cn('transition-all duration-300', {
-            'w-10 p-3 2xl:p-2': isFolded,
-          })}
+          className="w-10 p-3 transition-all duration-300 2xl:p-2"
         />
         <p className="text-14M font-medium 2xl:text-16M">설정</p>
       </Link>
@@ -37,9 +31,7 @@ export default function NavUserSetting({ isFolded }: Props) {
       >
         <Icon
           icon={faRightFromBracket}
-          className={cn('transition-all duration-300', {
-            'w-10 p-3 2xl:p-2': isFolded,
-          })}
+          className="w-10 p-3 transition-all duration-300 2xl:p-2"
         />
         <p className="text-14M font-medium 2xl:text-16M">로그아웃</p>
       </button>

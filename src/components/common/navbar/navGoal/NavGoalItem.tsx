@@ -25,7 +25,7 @@ export default function NavGoalItem({ goal, isSelected }: Props) {
         'flex flex-none cursor-pointer items-center gap-4 overflow-hidden rounded-md p-2',
         'text-gray-400 hover:bg-gs50',
         {
-          'bg-gs50 text-gray-600': isSelected,
+          'bg-gs50 text-gsBk': isSelected,
         },
       )}
     >
