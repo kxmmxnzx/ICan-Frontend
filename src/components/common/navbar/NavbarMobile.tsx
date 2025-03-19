@@ -31,6 +31,7 @@ export default function NavbarMobile() {
   return (
     <>
       <nav
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
         role="button"
         className="z-30 grid h-16 w-full grid-cols-5 gap-2 bg-gs00 px-2 shadow-[0_-4px_8px_-4px_rgba(0,0,0,0.1)] md:hidden"
         onClick={clickTabs}
