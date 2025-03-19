@@ -21,62 +21,54 @@ export default function Navbar() {
   };
 
   return (
-    <>
-      <nav
+    <nav
+      className={cn(
+        'hidden h-dvh flex-none flex-col items-start bg-gs00 px-2 py-4 transition-all duration-300 first-line:left-0 md:relative md:flex 2xl:px-6 2xl:py-5',
+        {
+          'w-16': isFolded,
+          'w-64 2xl:w-80': !isFolded,
+        },
+      )}
+    >
+      <button
         className={cn(
-          'fixed top-0 z-30 flex h-dvh flex-none flex-col items-start bg-gs00 px-2 py-4 transition-all duration-300 first-line:left-0 md:relative 2xl:px-6 2xl:py-5',
-          {
-            'w-16': isFolded,
-            'w-64 2xl:w-80': !isFolded,
-          },
+          'absolute right-0 top-20 z-10 flex h-10 w-5 items-center justify-center rounded-l-md bg-slate50',
         )}
-      >
-        <button
-          className={cn(
-            'absolute right-0 top-20 z-10 flex h-10 w-5 items-center justify-center rounded-l-md bg-slate50',
-          )}
-          type="button"
-          onClick={toggleNavbar}
-        >
-          <FontAwesomeIcon
-            className={cn('h-3 w-3 transition-transform duration-300', {
-              'rotate-0 overflow-y-hidden': isFolded,
-              'rotate-180': !isFolded,
-            })}
-            icon={faAngleRight}
-            size="2xs"
-          />
-        </button>
-        <Link
-          href="/"
-          className={cn(
-            'flex h-9 items-center gap-2 rounded-lg p-[3px] text-18SB 2xl:h-10',
-          )}
-          onClick={foldHeaderOnMobile}
-        >
-          <IcanLogo
-            className={cn(
-              'mx-2 size-6 flex-none transition-transform duration-500 2xl:size-[30px]',
-              {
-                'rotate-90': isFolded,
-              },
-            )}
-          />
-          <IcanTitle
-            className={cn('h-5 w-16 transition-transform duration-300', {
-              invisible: isFolded,
-            })}
-          />
-        </Link>
-        <NavUserProfile />
-        <NavTab />
-      </nav>
-      <div
-        className={cn('md:hidden', {
-          'fixed inset-0 z-20 bg-black bg-opacity-50': !isFolded,
-        })}
+        type="button"
         onClick={toggleNavbar}
-      />
-    </>
+      >
+        <FontAwesomeIcon
+          className={cn('h-3 w-3 transition-transform duration-300', {
+            'rotate-0 overflow-y-hidden': isFolded,
+            'rotate-180': !isFolded,
+          })}
+          icon={faAngleRight}
+          size="2xs"
+        />
+      </button>
+      <Link
+        href="/"
+        className={cn(
+          'flex h-9 items-center gap-2 rounded-lg p-[3px] text-18SB 2xl:h-10',
+        )}
+        onClick={foldHeaderOnMobile}
+      >
+        <IcanLogo
+          className={cn(
+            'mx-2 size-6 flex-none transition-transform duration-500 2xl:size-[30px]',
+            {
+              'rotate-90': isFolded,
+            },
+          )}
+        />
+        <IcanTitle
+          className={cn('h-5 w-16 transition-transform duration-300', {
+            invisible: isFolded,
+          })}
+        />
+      </Link>
+      <NavUserProfile />
+      <NavTab />
+    </nav>
   );
 }
