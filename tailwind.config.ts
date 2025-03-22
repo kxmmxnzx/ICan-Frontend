@@ -28,6 +28,22 @@ const config: Config = {
     'ql-align-center',
     'ql-align-right',
     'ql-align-left',
+
+    'bg-goal01-100',
+    'bg-goal01',
+    'text-goal01',
+    'bg-goal02-100',
+    'bg-goal02',
+    'text-goal02',
+    'bg-goal03-100',
+    'bg-goal03',
+    'text-goal03',
+    'bg-goal04-100',
+    'bg-goal04',
+    'text-goal04',
+    'bg-goal05-100',
+    'bg-goal05',
+    'text-goal05',
     {
       pattern: /data-list-.*/, // data-list 속성 보존
     },
