@@ -16,10 +16,10 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        'hidden h-full flex-none flex-col items-start bg-gs00 px-2 py-4 transition-all duration-300 first-line:left-0 md:relative md:flex 2xl:px-6 2xl:py-5',
+        'hidden h-full flex-none flex-col items-start bg-gs00 px-2 py-4 transition-all duration-300 first-line:left-0 md:relative md:flex',
         {
           'w-16': isFolded,
-          'w-64 2xl:w-80': !isFolded,
+          'w-64': !isFolded,
         },
       )}
     >
@@ -41,13 +41,11 @@ export default function Navbar() {
       </button>
       <Link
         href="/"
-        className={cn(
-          'flex h-9 items-center gap-2 rounded-lg p-[3px] text-18SB 2xl:h-10',
-        )}
+        className="flex h-9 items-center gap-2 rounded-lg p-[3px] text-18SB"
       >
         <IcanLogo
           className={cn(
-            'mx-2 size-6 flex-none transition-transform duration-500 2xl:size-[30px]',
+            'mx-2 size-6 flex-none transition-transform duration-500',
             {
               'rotate-90': isFolded,
             },

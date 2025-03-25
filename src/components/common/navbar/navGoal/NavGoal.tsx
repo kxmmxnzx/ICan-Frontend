@@ -41,14 +41,11 @@ export default function NavGoal() {
       <div
         className={cn(
           'flex flex-none items-center gap-1 overflow-hidden whitespace-nowrap rounded-lg px-1 py-2 text-gs600',
-          '2xl:gap-2 2xl:rounded-xl 2xl:px-2 2xl:py-3',
           { 'bg-slate50 text-slate700': pathname.startsWith('/goals') },
         )}
       >
-        <Icon icon={faFontAwesome} className="w-10 p-3 2xl:p-2" />
-        <p className="flex-1 text-left text-14M font-medium 2xl:text-16M">
-          목표
-        </p>
+        <Icon icon={faFontAwesome} className="w-10 p-3" />
+        <p className="flex-1 text-left text-14M font-medium">목표</p>
         <IconButton
           className={cn('transition-transform duration-300', {
             'rotate-0': !isFolded,
@@ -59,7 +56,7 @@ export default function NavGoal() {
           onClick={foldGoalList}
         />
         <IconButton
-          className="size-6 rounded-2xl border border-gs200 bg-gs00 text-gs400 hover:border-slate500 hover:text-slate500 2xl:size-7"
+          className="size-6 rounded-2xl border border-gs200 bg-gs00 text-gs400 hover:border-slate500 hover:text-slate500"
           icon={faPlus}
           onClick={addGoalList}
         />

@@ -8,11 +8,11 @@ export default function NavUserProfile() {
   const { data, status } = useSession();
   const { isFolded } = useNavbar();
   return (
-    <div className="my-6 flex h-16 w-full flex-none items-center gap-3 overflow-hidden 2xl:my-8">
+    <div className="my-6 flex h-16 w-full flex-none items-center gap-3 overflow-hidden">
       {status === 'authenticated' && data?.user?.image ? (
         <Image
           className={cn(
-            'ml-1 size-12 flex-none rounded-full object-cover transition-all duration-300 2xl:size-16',
+            'ml-1 size-12 flex-none rounded-full object-cover transition-all duration-300',
             { 'opacity-0': isFolded },
           )}
           src={data?.user?.image}
@@ -24,15 +24,15 @@ export default function NavUserProfile() {
       ) : (
         <NonProfile
           className={cn(
-            'size-12 flex-none rounded-full transition-all duration-300 2xl:size-16',
-            { 'ml-1 opacity-0 2xl:size-10': isFolded },
+            'size-12 flex-none rounded-full transition-all duration-300',
+            { 'ml-1 opacity-0': isFolded },
           )}
         />
       )}
       <div className="flex w-full flex-col gap-1 overflow-hidden">
         <span
           className={cn(
-            'w-full overflow-hidden whitespace-nowrap break-words text-14SB font-semibold text-gsBk 2xl:text-16SB',
+            'w-full overflow-hidden whitespace-nowrap break-words text-14SB font-semibold text-gsBk',
             { 'h-5 animate-pulse rounded-sm bg-gs100': status === 'loading' },
           )}
         >
@@ -40,7 +40,7 @@ export default function NavUserProfile() {
         </span>
         <span
           className={cn(
-            'w-full overflow-hidden whitespace-nowrap break-words text-12M text-gs400 2xl:text-14M',
+            'w-full overflow-hidden whitespace-nowrap break-words text-12M text-gs400',
             {
               'h-4 animate-pulse rounded-sm bg-gs100': status === 'loading',
             },

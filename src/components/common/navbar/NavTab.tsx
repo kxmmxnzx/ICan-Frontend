@@ -16,8 +16,8 @@ export default function NavTab() {
   const pathname = usePathname();
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-2 overflow-y-hidden border-t border-gs200 py-4 2xl:gap-3 2xl:py-8">
-      <section className="flex flex-none flex-col gap-2 2xl:gap-3">
+    <div className="flex w-full flex-1 flex-col gap-2 overflow-y-hidden border-t border-gs200 py-4">
+      <section className="flex flex-none flex-col gap-2">
         {tabs.map((tab) => (
           <NavTabItem
             icon={tab.icon}
