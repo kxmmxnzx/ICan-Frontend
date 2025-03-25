@@ -11,15 +11,7 @@ import cn from '@/utils/cn';
 import IconButton from '../button/IconButton';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { Goal } from '@/types/goals';
-
-const goalColor: Record<string, string> = {
-  goal01: 'text-goal01',
-  goal02: 'text-goal02',
-  goal03: 'text-goal03',
-  goal04: 'text-goal04',
-  goal05: 'text-goal05',
-  default: 'text-slate500',
-};
+import { GOAL_COLORS } from '@/constants/goalColors';
 
 interface Props {
   id: number;
@@ -65,7 +57,7 @@ export default function CheckTodo({
       <label
         htmlFor={`${id}`}
         className={cn(
-          'group flex w-full cursor-pointer items-center justify-center gap-2 border-b border-dashed border-gs200 p-2 text-gsBk 2xl:gap-3 2xl:px-3 2xl:py-4',
+          'group flex w-full cursor-pointer items-center justify-center gap-2 border-b border-dashed border-gs200 p-2 text-gsBk',
           { 'hover:bg-slate50 hover:text-slate700': !done },
           { 'bg-slate50 text-slate700': isMenuOpen },
         )}
@@ -92,8 +84,8 @@ export default function CheckTodo({
           {goal !== null && !done && (
             <span
               className={cn(
-                'overflow-hidden text-ellipsis whitespace-nowrap break-words text-12M text-gs500 2xl:text-14M',
-                goalColor[goal?.color || 'default'],
+                'max-w-fit truncate break-words rounded px-1 text-12M text-gs500',
+                GOAL_COLORS[goal?.color || 'default'].set,
               )}
             >
               {goal?.title}
@@ -102,7 +94,7 @@ export default function CheckTodo({
           <span
             className={cn(
               done && 'text-gs400 line-through',
-              'overflow-hidden text-ellipsis whitespace-nowrap break-words text-14R 2xl:text-16R',
+              'overflow-hidden text-ellipsis whitespace-nowrap break-words text-14R',
             )}
           >
             {title}
