@@ -43,7 +43,7 @@ export default function TodayGraph({ progress }: Props) {
         />
       </svg>
       <svg
-        className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 rotate-[150deg]"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[150deg]"
         width="140%"
         height="140%"
         viewBox="0 0 120 120"
