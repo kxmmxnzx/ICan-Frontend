@@ -2,11 +2,11 @@ import { faAngleUp, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import TodoListItem from './TodoListItem';
-import Button from '../common/button/Button';
-import Icon from '../common/icon/Icon';
+import Button from '../../common/button/Button';
+import Icon from '../../common/icon/Icon';
 import cn from '@/utils/cn';
 import { useDailyTodos } from '@/hooks/useTodos';
-import SimpleTodoSkeleton from '../common/todo/SimpleTodoSkeleton';
+import SimpleTodoSkeleton from '../../common/todo/SimpleTodoSkeleton';
 
 interface Props {
   selectedDate: Date;
@@ -30,20 +30,20 @@ export default function TodoList({ selectedDate, onOpenModal }: Props) {
   const completeTodos = todos ? todos.filter((todo) => todo.done) : [];
 
   return (
-    <div className="flex size-full flex-col rounded-[20px] border-2 border-gs200 bg-gs00">
+    <div className="flex w-full flex-col rounded-2xl border-2 border-gs200 bg-gs00 md:h-full">
       {/* header */}
-      <div className="flex items-center justify-between border-b-2 border-gs200 p-4">
-        <h2 className="text-18SB text-gsBk">할일</h2>
+      <div className="flex items-center justify-between border-b-2 border-gs200 p-3">
+        <h2 className="text-16SB text-gsBk 2xl:text-18SB">할일</h2>
         <p className="text-14M text-gs500">
           {`${selectedDate.getFullYear()}년 ${String(selectedDate.getMonth() + 1).padStart(2, '0')}월 ${String(selectedDate.getDate()).padStart(2, '0')}일`}
         </p>
       </div>
       {/* 할 일 목록 */}
-      <div className="flex flex-1 flex-col gap-8 overflow-hidden p-4">
+      <div className="flex flex-1 flex-col gap-8 p-4 md:overflow-hidden">
         {/* 미완료 */}
         <div
           className={cn(
-            'flex min-h-0 flex-1 flex-col overflow-y-auto transition-all duration-500 ease-in-out',
+            'flex min-h-0 flex-1 flex-col transition-all duration-500 ease-in-out md:overflow-y-auto',
             isCompletedOpen ? 'max-h-[50%]' : 'max-h-[85%]',
           )}
         >
@@ -93,14 +93,14 @@ export default function TodoList({ selectedDate, onOpenModal }: Props) {
               )}
               {!isFetching && completeTodos.length === 0 && (
                 <div className="flex h-full items-center justify-center text-center text-14M text-gs500">
-                  등록된 할일이 없습니다.
+                  완료된 할일이 없습니다.
                 </div>
               )}
             </div>
           )}
         </div>
       </div>
-      <div className="px-4 py-5">
+      <div className="p-4">
         <Button variant="outline" size="full" onClick={() => onOpenModal()}>
           <Icon icon={faPlus} />새 할일 생성
         </Button>

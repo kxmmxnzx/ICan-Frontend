@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Todo } from '@/types/todos';
-import CheckTodo from '../common/todo/CheckTodo';
+import CheckTodo from '../../common/todo/CheckTodo';
 import { useDeleteTodo, useUpdateTodo } from '@/hooks/useTodos';
-import TodoModal from './TodoModal';
-import ConfirmModal from '../common/ConfirmModal';
+import TodoModal from '../TodoModal';
+import ConfirmModal from '../../common/ConfirmModal';
 
 interface Props {
   todoList: Todo[];

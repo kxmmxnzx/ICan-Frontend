@@ -9,16 +9,7 @@ import cn from '@/utils/cn';
 import { Todo } from '@/types/todos';
 import { useAddTodo } from '@/hooks/useTodos';
 import { useDeleteTodoBasket } from '@/hooks/useTodoBasket';
-
-const goalColor: Record<string, string> = {
-  goal01: 'bg-goal01-100 text-goal01',
-  goal02: 'bg-goal02-100 text-goal02',
-  goal03: 'bg-goal03-100 text-goal03',
-  goal04: 'bg-goal04-100 text-goal04',
-  goal05: 'bg-goal05-100 text-goal05',
-  default: 'bg-slate100 text-slate500',
-};
-
+import { GOAL_COLORS } from '@/constants/goalColors';
 /**
  * 각 날짜 숫자를 커스텀한 UI
  *
@@ -35,8 +26,8 @@ const renderDayCellContent = (info: DayCellContentArg) => {
       className={cn(
         'flex items-center justify-center rounded-sm p-2',
         'size-5',
-        isToday && 'bg-slate500 text-white',
         isSunday && 'text-warn500',
+        isToday && 'bg-slate500 text-white',
       )}
     >
       <span className="text-14M">{dateText}</span>
@@ -52,8 +43,8 @@ const dayHeaderContent = (args: { text: string }) => {
   return (
     <div>
       <div>
-        <span className="hidden md:inline">{args.text}</span>
-        <span className="md:hidden">{args.text.slice(0, 1)}</span>
+        <span className="relative hidden md:inline">{args.text}</span>
+        <span className="relative md:hidden">{args.text.slice(0, 1)}</span>
       </div>
     </div>
   );
@@ -62,7 +53,7 @@ const dayHeaderContent = (args: { text: string }) => {
 interface Props {
   todos: Todo[];
   selectedDate: Date;
-  onDateChange: (date: Date) => void;
+  onSelectDate: (date: Date) => void;
   calendarRef: React.RefObject<FullCalendar>;
   onMonthChange: (year: number, month: number) => void;
 }
@@ -70,7 +61,7 @@ interface Props {
 export default function CalendarBody({
   todos,
   selectedDate,
-  onDateChange,
+  onSelectDate,
   calendarRef,
   onMonthChange,
 }: Props) {
@@ -91,9 +82,9 @@ export default function CalendarBody({
    */
   const handleDateClick = useCallback(
     (info: { date: Date }) => {
-      onDateChange(new Date(info.date));
+      onSelectDate(new Date(info.date));
     },
-    [onDateChange],
+    [onSelectDate],
   );
 
   /**
@@ -101,7 +92,24 @@ export default function CalendarBody({
    */
   const handleEventClick = (info: EventClickArg) => {
     if (info.event.start) {
-      onDateChange(new Date(info.event.start)); // 선택된 날짜 변경
+      onSelectDate(new Date(info.event.start)); // 선택된 날짜 변경
+    }
+  };
+
+  const updateCellSize = () => {
+    const cell = document.querySelector('.fc-daygrid-day');
+    const screen = window.innerHeight;
+
+    if (cell) {
+      document.querySelectorAll('.fc-daygrid-day').forEach((el) => {
+        const cellElement = el as HTMLElement;
+        if (screen >= 898) {
+          cellElement.style.height = `${96}px`;
+          cellElement.style.minHeight = `${66}px`;
+        } else {
+          cellElement.style.height = `${66}px`;
+        }
+      });
     }
   };
 
@@ -110,41 +118,11 @@ export default function CalendarBody({
    */
   const handleDayCellMount = () => {
     // 반응형에 맞춰 셀 크기 업데이트
-    const updateCellSize = () => {
-      const cell = document.querySelector('.fc-daygrid-day');
-      const screenWidth = window.innerWidth;
-
-      if (cell) {
-        const width = cell.clientWidth;
-        document.querySelectorAll('.fc-daygrid-day').forEach((el) => {
-          const cellElement = el as HTMLElement;
-
-          if (screenWidth <= 1470) {
-            if (width < 90) {
-              cellElement.style.height = `${width}px`;
-              cellElement.style.minHeight = `${width}px`;
-            } else {
-              cellElement.style.height = '80px';
-              cellElement.style.minHeight = '80px';
-            }
-          } else if (width < 96) {
-            cellElement.style.height = `${width}px`;
-            cellElement.style.minHeight = `${width}px`;
-          } else {
-            cellElement.style.height = '100px';
-            cellElement.style.minHeight = '100px';
-          }
-        });
-      }
-    };
-
     updateCellSize();
+  };
 
-    window.addEventListener('resize', updateCellSize);
-
-    return () => {
-      window.removeEventListener('resize', updateCellSize);
-    };
+  const handleResize = () => {
+    updateCellSize();
   };
 
   const updateMoreCount = () => {
@@ -183,6 +161,7 @@ export default function CalendarBody({
       });
     });
   };
+
   useEffect(() => {
     const observer = new ResizeObserver(updateMoreCount);
     document.querySelectorAll('.fc-daygrid-day').forEach((dayCell) => {
@@ -229,7 +208,7 @@ export default function CalendarBody({
       events={todos.map((event) => ({
         ...event,
         id: event.todoId.toString(),
-        className: goalColor[event.goal?.color || 'default'],
+        className: GOAL_COLORS[event.goal?.color || 'default'].set,
       }))}
       eventBorderColor="transparent"
       eventDisplay="block"
@@ -239,12 +218,13 @@ export default function CalendarBody({
       headerToolbar={false}
       dayHeaderContent={dayHeaderContent}
       dayHeaderFormat={{ weekday: 'long' }}
-      dayHeaderClassNames="border-[0.5px] border-gs200 bg-gs50 !py-2 text-12M text-gs500 xl:text-14M"
+      dayHeaderClassNames="border-[0.5px] border-gs200 bg-gs50 !py-2 text-14M text-gs500"
       height="auto"
       contentHeight="auto"
       dayCellContent={(info) => renderDayCellContent(info)}
       dayCellClassNames={(info) => getDayCellClassNames(info)}
       dayCellDidMount={handleDayCellMount}
+      windowResize={handleResize}
       droppable
       eventReceive={(info) => {
         const id = Number(info.event.id);
