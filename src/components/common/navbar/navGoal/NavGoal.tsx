@@ -73,20 +73,20 @@ export default function NavGoal() {
           <NewGoalItem onCloseInput={() => setShowNewGoal(false)} />
         )}
         {isFetching &&
+          !goalList &&
           Array.from({ length: 6 }, (_, i) => i + 1).map((e) => (
             <div
               key={e}
               className="my-1 flex h-6 w-full animate-pulse rounded-md bg-gs100 2xl:h-8"
             />
           ))}
-        {!isFetching &&
-          goalList?.map((goal: Goal) => (
-            <NavGoalItem
-              goal={goal}
-              isSelected={pathname === `/goals/${goal.goalId}`}
-              key={goal.goalId}
-            />
-          ))}
+        {goalList?.map((goal: Goal) => (
+          <NavGoalItem
+            goal={goal}
+            isSelected={pathname === `/goals/${goal.goalId}`}
+            key={goal.goalId}
+          />
+        ))}
       </div>
     </div>
   );

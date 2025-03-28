@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { Goal } from '@/types/goals';
 import { QUERY_KEY } from '@/constants/queryKey';
 import { getErrorMessage } from '@/constants/errorMessages';
@@ -36,7 +37,6 @@ const deleteGoal = async (goalId: number) => {
   });
 
   if (!res.ok) throw new Error(getErrorMessage(res.status));
-  return res.json();
 };
 
 export const useGoals = () => {
@@ -87,10 +87,9 @@ export const useDeleteGoal = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (goalId: number) => deleteGoal(goalId),
+    mutationFn: deleteGoal,
     onMutate: async (goalId: number) => {
       await queryClient.cancelQueries({ queryKey: [QUERY_KEY.GOALS] });
-
       const previousGoals = queryClient.getQueryData<Goal[]>([QUERY_KEY.GOALS]);
 
       if (previousGoals) {
@@ -102,13 +101,16 @@ export const useDeleteGoal = () => {
 
       return { previousGoals };
     },
-    onError: (_error, _goalId, context) => {
+    onError: async (_error, _goalId, context) => {
       if (context?.previousGoals) {
         queryClient.setQueryData([QUERY_KEY.GOALS], context.previousGoals);
       }
+      toast.error('목표 삭제를 실패했습니다.');
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOALS] });
+    onSettled: async () => {
+      await queryClient.refetchQueries({
+        queryKey: [QUERY_KEY.GOALS],
+      });
     },
   });
 };
