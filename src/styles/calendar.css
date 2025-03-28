@@ -43,7 +43,6 @@
 }
 
 .fc-scrollgrid {
-  max-width: 840px !important;
   width: 100%;
 }
 
@@ -99,4 +98,8 @@
 .fc-theme-standard th,
 .fc-theme-standard .fc-scrollgrid {
   @apply !border-[0.5px] !border-gs200;
+}
+
+.fc .fc-scrollgrid-section-sticky > * {
+  position: relative !important;
 }
