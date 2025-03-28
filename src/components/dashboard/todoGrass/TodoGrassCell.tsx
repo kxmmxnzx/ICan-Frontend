@@ -9,13 +9,20 @@ export default function TodoGrassCell({ date, progress }: Props) {
   const currentYear = `${new Date().getFullYear()}`;
 
   const getCellColor = () => {
-    if (progress === 0) return 'bg-slate50';
-    if (progress < 20) return 'bg-slate100'; // 연한 색
-    if (progress < 40) return 'bg-slate200'; // 조금 더 진한 색
-    if (progress < 60) return 'bg-slate300'; // 중간색
-    if (progress < 80) return 'bg-slate400'; // 진한 색
-    if (progress < 100) return 'bg-slate500';
-    return 'bg-slate700'; // 매우 진한 색
+    switch (Math.floor(progress / 20)) {
+      case 0:
+        return progress === 0 ? 'bg-gs100' : 'bg-slate100';
+      case 1:
+        return 'bg-slate200';
+      case 2:
+        return 'bg-slate300';
+      case 3:
+        return 'bg-slate400';
+      case 4:
+        return 'bg-slate500';
+      default:
+        return 'bg-slate700';
+    }
   };
 
   return (
