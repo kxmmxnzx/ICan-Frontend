@@ -27,6 +27,34 @@ interface UpdateTodoParams {
   date?: string;
 }
 
+const toggleTodo = async ({
+  goalId,
+  todoId,
+  todo,
+}: {
+  goalId: number;
+  todoId: number;
+  todo: Todo;
+}) => {
+  const updatedFields = {
+    done: !todo.done,
+    goalId: todo.goal ? todo.goal.goalId : undefined,
+    title: todo.title,
+    date: todo.date,
+  };
+
+  const response = await fetch(`/api/goals/${goalId}/todos/${todoId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(updatedFields),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update todo');
+  }
+
+  return response.json();
+};
+
 export const useGoalTodo = (
   goalId: number,
   enabled?: boolean,
@@ -52,7 +80,7 @@ export const useGoalTodo = (
         basketTodos: Array.isArray(data.basketTodos) ? data.basketTodos : [],
       };
     },
-    enabled: enabled === undefined ? true : enabled,
+    enabled: enabled || true,
   });
 
   const todoItems = queryData?.todos.filter((item) => !item.done) || [];
@@ -69,29 +97,14 @@ export const useGoalTodo = (
   };
 };
 
+// 할 일 완료/취소 쿼리
 export const useToggleTodo = (goalId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ todoId, todo }: { todoId: number; todo: Todo }) => {
-      const updatedFields = {
-        done: !todo.done,
-        goalId: todo.goal ? todo.goal.goalId : undefined,
-        title: todo.title,
-        date: todo.date,
-      };
+    mutationFn: async ({ todoId, todo }: { todoId: number; todo: Todo }) =>
+      toggleTodo({ goalId, todoId, todo }),
 
-      const response = await fetch(`/api/goals/${goalId}/todos/${todoId}`, {
-        method: 'PATCH',
-        body: JSON.stringify(updatedFields),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update todo');
-      }
-
-      return response.json();
-    },
     onMutate: async ({ todoId }) => {
       await queryClient.cancelQueries({
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
@@ -121,22 +134,36 @@ export const useToggleTodo = (goalId: number) => {
         );
       }
     },
-    onSettled: () => {
+    onSettled: (_, __, { todo }) => {
+      // onSettled의 세번째 인수는 variables로, mutateFunc의 인수임
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
       });
+
+      if (todo && todo.date) {
+        const [year, month] = todo.date.split('-').map(Number);
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MONTHLY_TODOS, { year, month }],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.DAILY_TODOS, todo.date],
+        });
+      }
     },
   });
 };
 
+// 목표 할일 추가 쿼리
 export const useGoalAddTodo = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (formData: TodoFormValues) => addTodo(formData),
-
     onSuccess: (newTodo) => {
       const goalId = newTodo.goal?.goalId;
+      const goalDate = newTodo.date;
 
       if (goalId === undefined) {
         console.error('goalId가 없습니다.');
@@ -146,10 +173,23 @@ export const useGoalAddTodo = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
       });
+
+      if (goalDate) {
+        const [year, month] = goalDate.split('-').map(Number);
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MONTHLY_TODOS, { year, month }],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.DAILY_TODOS, goalDate],
+        });
+      }
     },
   });
 };
 
+// 목표 할일 수정 쿼리
 export const useUpdateGoalTodo = () => {
   const queryClient = useQueryClient();
 
@@ -191,15 +231,28 @@ export const useUpdateGoalTodo = () => {
         );
       }
     },
-    onSettled: (_, __, { goalId }) => {
+
+    onSettled: (_, __, { goalId, date }) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
       });
+
+      if (date) {
+        const [year, month] = date.split('-').map(Number);
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MONTHLY_TODOS, { year, month }],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.DAILY_TODOS, date],
+        });
+      }
     },
   });
 };
 
-// 목표별 할일 삭제
+// 목표별 할일 삭제 쿼리
 export const useDeleteGoalTodo = (goalId: number) => {
   const queryClient = useQueryClient();
 
@@ -217,6 +270,10 @@ export const useDeleteGoalTodo = (goalId: number) => {
         goalId,
       ]);
 
+      const goalDate = previousData?.todos?.filter(
+        (todo) => todo.todoId === todoId,
+      )[0]?.date;
+
       if (previousData) {
         const updatedTodos = previousData.todos.filter(
           (todo) => todo.todoId !== todoId,
@@ -228,7 +285,7 @@ export const useDeleteGoalTodo = (goalId: number) => {
         });
       }
 
-      return { previousData };
+      return { previousData, goalDate };
     },
     onError: (err, todoId, context) => {
       if (context?.previousData) {
@@ -238,10 +295,23 @@ export const useDeleteGoalTodo = (goalId: number) => {
         );
       }
     },
-    onSettled: () => {
+    onSettled: (_, __, todoId, context) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
       });
+
+      if (context?.goalDate) {
+        const date = context?.goalDate;
+        const [year, month] = date.split('-').map(Number);
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MONTHLY_TODOS, { year, month }],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.DAILY_TODOS, date],
+        });
+      }
     },
   });
 };
