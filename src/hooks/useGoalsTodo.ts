@@ -140,6 +140,10 @@ export const useToggleTodo = (goalId: number) => {
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GRASS],
+      });
+
       if (todo && todo.date) {
         const [year, month] = todo.date.split('-').map(Number);
 
@@ -172,6 +176,10 @@ export const useGoalAddTodo = () => {
 
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GRASS],
       });
 
       if (goalDate) {
@@ -237,6 +245,10 @@ export const useUpdateGoalTodo = () => {
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GRASS],
+      });
+
       if (date) {
         const [year, month] = date.split('-').map(Number);
 
@@ -298,6 +310,10 @@ export const useDeleteGoalTodo = (goalId: number) => {
     onSettled: (_, __, todoId, context) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GOAL_TODOS, goalId],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GRASS],
       });
 
       if (context?.goalDate) {
